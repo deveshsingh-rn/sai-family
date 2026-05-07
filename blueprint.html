@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sai Family — Tech Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Outfit:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron: #B86B00;
+    --saffron-dark: #A05D00;
+    --saffron-light: #FAF0DC;
+    --saffron-text: #8C5200;
+    --bg: #FDFCFA;
+    --surface: #FFFFFF;
+    --border: rgba(0,0,0,0.1);
+    --border-strong: rgba(0,0,0,0.18);
+    --text: #1A1814;
+    --text-muted: #6B6560;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); }
+  .page { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* HEADER */
+  .header { text-align: center; padding: 3rem 0 2.5rem; }
+  .header-eyebrow { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem; }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 600; line-height: 1.1; }
+  .header h1 span { color: var(--saffron); }
+  .header-sub { font-size: 13px; color: var(--text-muted); letter-spacing: 0.1em; margin-top: 0.5rem; }
+  .divider-ornament { display: flex; align-items: center; gap: 12px; max-width: 280px; margin: 1.5rem auto; }
+  .dline { flex: 1; height: 0.5px; background: var(--border); }
+  .ddot { width: 6px; height: 6px; border-radius: 50%; background: var(--saffron); }
+
+  /* LAYER SECTION */
+  .layer { margin-bottom: 1.5rem; }
+  .layer-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .layer-label { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
+  .lbl-client  { background: #FAF0DC; color: #8C5200; }
+  .lbl-state   { background: #EEEDFE; color: #3C3489; }
+  .lbl-api     { background: #E1F5EE; color: #0F6E56; }
+  .lbl-data    { background: #E6F1FB; color: #185FA5; }
+  .lbl-third   { background: #EAF3DE; color: #3B6D11; }
+  .lbl-infra   { background: #FAECE7; color: #993C1D; }
+  .layer-rule  { flex: 1; height: 0.5px; background: var(--border); }
+
+  /* TECH CARDS */
+  .tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+  .tech-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; transition: border-color 0.2s, box-shadow 0.2s; }
+  .tech-card:hover { border-color: var(--saffron); box-shadow: 0 0 0 3px rgba(184,107,0,0.08); }
+  .tc-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .tc-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .ic-amber  { background: #FAF0DC; color: #8C5200; }
+  .ic-purple { background: #EEEDFE; color: #3C3489; }
+  .ic-teal   { background: #E1F5EE; color: #0F6E56; }
+  .ic-blue   { background: #E6F1FB; color: #185FA5; }
+  .ic-coral  { background: #FAECE7; color: #993C1D; }
+  .ic-green  { background: #EAF3DE; color: #3B6D11; }
+  .ic-pink   { background: #FBEAF0; color: #72243E; }
+  .ic-gray   { background: #F1EFE8; color: #5F5E5A; }
+  .tc-name { font-size: 13px; font-weight: 500; }
+  .tc-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 6px; }
+  .tc-badge { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; background: #F1EFE8; color: #5F5E5A; padding: 2px 7px; border-radius: 4px; border: 0.5px solid var(--border); display: inline-block; }
+
+  /* ARROWS */
+  .arrow-connector { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 8px 0; font-size: 12px; color: var(--text-muted); }
+  .arrow-connector .arrow { color: var(--saffron); font-size: 18px; }
+
+  /* FLOW BOXES */
+  .flow-box { background: #F7F4EE; border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 10px; border: 0.5px solid var(--border); }
+  .flow-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 10px; }
+  .flow-steps { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .fstep { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 5px 12px; border-radius: 20px; background: var(--surface); border: 0.5px solid var(--border); color: var(--text); }
+  .farrow { color: var(--saffron); font-weight: 500; font-size: 14px; }
+
+  /* ROADMAP */
+  .roadmap-intro { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.2rem 1.3rem; margin-bottom: 12px; }
+  .roadmap-intro h2 { font-family: 'Cormorant Garamond', serif; font-size: 30px; line-height: 1.1; font-weight: 600; margin-bottom: 8px; }
+  .roadmap-intro p { font-size: 13px; color: var(--text-muted); line-height: 1.7; max-width: 720px; }
+  .roadmap-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
+  .phase-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; }
+  .phase-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 9px; }
+  .phase-title { font-size: 13px; font-weight: 500; line-height: 1.35; }
+  .phase-tag { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: var(--saffron-text); background: var(--saffron-light); border: 0.5px solid rgba(184,107,0,0.18); border-radius: 999px; padding: 3px 8px; white-space: nowrap; }
+  .phase-list { list-style: none; display: grid; gap: 7px; }
+  .phase-list li { position: relative; padding-left: 16px; font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .phase-list li::before { content: ""; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--saffron); }
+  .debug-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+  .debug-item { background: #F7F4EE; border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px; }
+  .debug-item strong { display: block; font-size: 11px; font-weight: 500; margin-bottom: 5px; color: var(--text); }
+  .debug-item span { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.45; color: var(--text-muted); }
+
+  /* SECTION DIVIDER */
+  .section-divider { height: 0.5px; background: var(--border); margin: 2rem 0; }
+
+  /* STACK SUMMARY TABLE */
+  .stack-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 13px; }
+  .stack-table th { text-align: left; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); padding: 0 1rem 8px 0; border-bottom: 0.5px solid var(--border); }
+  .stack-table td { padding: 10px 1rem 10px 0; border-bottom: 0.5px solid var(--border); vertical-align: top; }
+  .stack-table tr:last-child td { border-bottom: none; }
+  .stack-table td:first-child { font-weight: 500; color: var(--saffron-text); white-space: nowrap; width: 150px; }
+  .stack-table td:last-child { color: var(--text-muted); font-size: 12px; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; background: #F1EFE8; padding: 1px 5px; border-radius: 3px; }
+
+  /* FOLDER STRUCTURE */
+  .folder-tree { background: #1A1814; color: #E8E0D0; font-family: 'JetBrains Mono', monospace; font-size: 12px; border-radius: var(--radius); padding: 1.25rem 1.5rem; line-height: 1.9; overflow-x: auto; }
+  .folder-tree .dir  { color: #E9A84C; }
+  .folder-tree .file { color: #A8D5A2; }
+  .folder-tree .cmt  { color: #6B6560; }
+
+  /* CTA */
+  .cta-section { text-align: center; padding: 2rem 1.5rem; border: 0.5px solid var(--border); border-radius: var(--radius); margin-top: 1.5rem; background: var(--surface); }
+  .cta-section h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; margin-bottom: 0.5rem; }
+  .cta-section p { font-size: 13px; color: var(--text-muted); max-width: 500px; margin: 0 auto 1.5rem; line-height: 1.7; }
+  .cta-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: var(--saffron); color: #FFF8EE; border: none; padding: 11px 28px; border-radius: 40px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; }
+  .btn-secondary { background: transparent; color: var(--text); border: 0.5px solid var(--border-strong); padding: 11px 28px; border-radius: 40px; font-family: 'Outfit', sans-serif; font-size: 14px; cursor: pointer; }
+
+  @media (max-width: 600px) {
+    .tech-grid { grid-template-columns: 1fr 1fr; }
+    .roadmap-grid { grid-template-columns: 1fr; }
+    .debug-strip { grid-template-columns: 1fr 1fr; }
+    .header h1 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">Technical Architecture Blueprint</div>
+    <h1>Sai <span>Family</span></h1>
+    <div class="header-sub">Mobile-First &nbsp;·&nbsp; Type-Safe &nbsp;·&nbsp; Full-Stack &nbsp;·&nbsp; Scalable</div>
+    <div class="divider-ornament"><div class="dline"></div><div class="ddot"></div><div class="dline"></div></div>
+  </div>
+
+  <!-- ── LAYER 1: CLIENT ── -->
+  <div class="layer">
+    <div class="layer-header">
+      <span class="layer-label lbl-client">Layer 1 — Client (Mobile App)</span>
+      <div class="layer-rule"></div>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-amber">📱</div><span class="tc-name">Expo (React Native)</span></div>
+        <div class="tc-desc">Cross-platform iOS &amp; Android. Managed workflow with EAS Build &amp; EAS Submit for store releases.</div>
+        <span class="tc-badge">expo ~54 · eas-cli · managed workflow</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-blue">⌨️</div><span class="tc-name">TypeScript</span></div>
+        <div class="tc-desc">Strict mode end-to-end. Shared types via monorepo package between app &amp; API. No implicit any.</div>
+        <span class="tc-badge">strict: true · path aliases · v5.x</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-teal">🗺</div><span class="tc-name">Expo Router v3</span></div>
+        <div class="tc-desc">File-based navigation. Tab bar for 12 pillars, stack navigators, modals, and deep link support.</div>
+        <span class="tc-badge">expo-router · deep-links · auth-guard</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-connector"><span class="arrow">↓</span><span>State flows through</span></div>
+
+  <!-- ── LAYER 2: STATE ── -->
+  <div class="layer">
+    <div class="layer-header">
+      <span class="layer-label lbl-state">Layer 2 — State Management</span>
+      <div class="layer-rule"></div>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-purple">⚙️</div><span class="tc-name">Redux Toolkit</span></div>
+        <div class="tc-desc">Global slices: auth, experienceFeed, events, businessDir, seva, notifications, sadhana, profile.</div>
+        <span class="tc-badge">@reduxjs/toolkit · createSlice · RTK</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-purple">🔄</div><span class="tc-name">Redux Saga</span></div>
+        <div class="tc-desc">Async side-effects: API calls, token refresh, offline sync, background uploads, push scheduling.</div>
+        <span class="tc-badge">redux-saga · takeLatest · takeEvery</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-green">✅</div><span class="tc-name">Zod Validation</span></div>
+        <div class="tc-desc">Schema-first form validation. Shared Zod schemas between app &amp; API. Paired with react-hook-form.</div>
+        <span class="tc-badge">zod v3 · react-hook-form · zodResolver</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-connector"><span class="arrow">↓</span><span>HTTPS REST · Axios interceptors · JWT bearer token</span></div>
+
+  <!-- ── LAYER 3: API ── -->
+  <div class="layer">
+    <div class="layer-header">
+      <span class="layer-label lbl-api">Layer 3 — Backend API</span>
+      <div class="layer-rule"></div>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-teal">🖥</div><span class="tc-name">Node.js + Express</span></div>
+        <div class="tc-desc">RESTful API. Route modules per pillar: /auth /experiences /events /business /seva /bhajans /groups /pilgrimage /donations.</div>
+        <span class="tc-badge">node 20 LTS · express v5 · cors · helmet</span>
+      </div>
+      <div class="tech-card" style="border-color: rgba(184,107,0,0.3); background: #FFFDF8;">
+        <div class="tc-head"><div class="tc-icon ic-coral">📲</div><span class="tc-name">Mobile OTP Auth</span></div>
+        <div class="tc-desc">Login via mobile number + SMS OTP only. No passwords. Access + refresh JWT tokens issued after OTP verify. RBAC: devotee / elder / mandir-admin / super-admin.</div>
+        <span class="tc-badge">MSG91 / Twilio · jsonwebtoken · OTP 6-digit</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-blue">📦</div><span class="tc-name">Separate Repositories</span></div>
+        <div class="tc-desc">Mobile and backend live in independent repos. Shared Zod DTOs can later be published as a versioned package.</div>
+        <span class="tc-badge">mobile-app repo · backend-api repo</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-connector"><span class="arrow">↓</span><span>Prisma query engine</span></div>
+
+  <!-- ── LAYER 4: DATA ── -->
+  <div class="layer">
+    <div class="layer-header">
+      <span class="layer-label lbl-data">Layer 4 — Data</span>
+      <div class="layer-rule"></div>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-blue">🗄</div><span class="tc-name">Prisma ORM</span></div>
+        <div class="tc-desc">Type-safe DB client. Schema-first models for all 12 pillars. Migrations, seeding, Prisma Studio GUI.</div>
+        <span class="tc-badge">prisma v5 · prisma studio · migrations</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-blue">🐘</div><span class="tc-name">PostgreSQL + PostGIS</span></div>
+        <div class="tc-desc">Primary relational DB. PostGIS extension for geo-queries — events near me, mandir finder, local devotees.</div>
+        <span class="tc-badge">postgres 16 · postgis · supabase / RDS</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-pink">⚡</div><span class="tc-name">Redis + BullMQ</span></div>
+        <div class="tc-desc">Session cache, API rate limiting, feed caching. BullMQ job queues for push delivery &amp; media processing.</div>
+        <span class="tc-badge">ioredis · bullmq · upstash / ElastiCache</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ── LAYER 5: THIRD PARTY ── -->
+  <div class="layer">
+    <div class="layer-header">
+      <span class="layer-label lbl-third">Layer 5 — Third-Party Services</span>
+      <div class="layer-rule"></div>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-amber">🔔</div><span class="tc-name">Expo Push Notifications</span></div>
+        <div class="tc-desc">Thursday pooja alerts, event reminders, new leelas, seva calls, bhajan uploads, business enquiry pings.</div>
+        <span class="tc-badge">expo-notifications · FCM · APNs</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-green">🗺</div><span class="tc-name">Google Maps</span></div>
+        <div class="tc-desc">Events map, pilgrimage atlas, business directory map, local sangha finder. Marker clustering + Places API.</div>
+        <span class="tc-badge">react-native-maps · Places API · Geocoding</span>
+      </div>
+      <div class="tech-card" style="border-color: rgba(0,120,212,0.25); background: #F5FAFF;">
+        <div class="tc-head"><div class="tc-icon ic-blue">🔷</div><span class="tc-name">Azure Blob Storage + CDN</span></div>
+        <div class="tc-desc">Experience photos, bhajan audio, event banners, profile images stored in Azure Blob. Azure CDN for global fast delivery with edge caching.</div>
+        <span class="tc-badge">@azure/storage-blob · Azure CDN · SAS tokens</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-coral">🌐</div><span class="tc-name">i18n — Multilingual</span></div>
+        <div class="tc-desc">i18next + expo-localization. Hindi, Telugu, Marathi, Tamil, Kannada, English from day one.</div>
+        <span class="tc-badge">i18next · expo-localization · 6 languages</span>
+      </div>
+      <div class="tech-card" style="border-color: rgba(184,107,0,0.3); background: #FFFDF8;">
+        <div class="tc-head"><div class="tc-icon ic-amber">💬</div><span class="tc-name">SMS OTP Provider</span></div>
+        <div class="tc-desc">MSG91 (India-first, best delivery rates) or Twilio for international. Sends 6-digit OTP, expires in 5 min, rate-limited per number.</div>
+        <span class="tc-badge">MSG91 · Twilio · OTP expiry · rate-limit</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-head"><div class="tc-icon ic-gray">📧</div><span class="tc-name">Email Service</span></div>
+        <div class="tc-desc">Transactional emails: OTP verification, weekly digest, event reminders, seva impact reports.</div>
+        <span class="tc-badge">nodemailer · Resend / SendGrid</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="flow-box" style="border-color: rgba(184,107,0,0.3); background: #FFFDF8;">
+    <div class="flow-label">📲 Mobile OTP Login Flow</div>
+    <div class="flow-steps">
+      <span class="fstep">Enter Mobile No.</span><span class="farrow">→</span>
+      <span class="fstep">POST /auth/send-otp</span><span class="farrow">→</span>
+      <span class="fstep">MSG91 / Twilio</span><span class="farrow">→</span>
+      <span class="fstep">SMS Delivered</span><span class="farrow">→</span>
+      <span class="fstep">Enter 6-digit OTP</span><span class="farrow">→</span>
+      <span class="fstep">POST /auth/verify-otp</span><span class="farrow">→</span>
+      <span class="fstep">OTP Valid ✓</span><span class="farrow">→</span>
+      <span class="fstep">Issue JWT Tokens</span><span class="farrow">→</span>
+      <span class="fstep">Redux Auth Slice</span><span class="farrow">→</span>
+      <span class="fstep">Navigate to App</span>
+    </div>
+  </div>
+
+  <div class="flow-box">
+    <div class="flow-label">⚡ Request Lifecycle — Data Flow</div>
+    <div class="flow-steps">
+      <span class="fstep">Expo App</span><span class="farrow">→</span>
+      <span class="fstep">Redux Saga</span><span class="farrow">→</span>
+      <span class="fstep">Axios + JWT</span><span class="farrow">→</span>
+      <span class="fstep">Express Route</span><span class="farrow">→</span>
+      <span class="fstep">Zod Validate</span><span class="farrow">→</span>
+      <span class="fstep">Prisma Query</span><span class="farrow">→</span>
+      <span class="fstep">PostgreSQL</span><span class="farrow">→</span>
+      <span class="fstep">JSON Response</span><span class="farrow">→</span>
+      <span class="fstep">Redux Store</span><span class="farrow">→</span>
+      <span class="fstep">UI Re-render</span>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- BACKEND BUILD ROADMAP -->
+  <div class="roadmap-intro">
+    <div style="font-size:11px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.5rem;">Backend First Execution Plan</div>
+    <h2>Build the backend in clear, testable parts</h2>
+    <p>The project starts with a Docker-powered backend foundation. Each phase should produce something runnable, debuggable, and reviewable before moving forward. Once the API contracts are stable, the mobile frontend can connect with confidence.</p>
+  </div>
+
+  <div class="flow-box" style="border-color: rgba(153,60,29,0.25); background: #FAECE7;">
+    <div class="flow-label">🐳 Docker Development Loop</div>
+    <div class="flow-steps">
+      <span class="fstep">docker compose up</span><span class="farrow">→</span>
+      <span class="fstep">API container</span><span class="farrow">→</span>
+      <span class="fstep">Postgres + PostGIS</span><span class="farrow">→</span>
+      <span class="fstep">Redis</span><span class="farrow">→</span>
+      <span class="fstep">Prisma migrate</span><span class="farrow">→</span>
+      <span class="fstep">Seed data</span><span class="farrow">→</span>
+      <span class="fstep">Health check</span><span class="farrow">→</span>
+      <span class="fstep">API tests</span>
+    </div>
+  </div>
+
+  <div class="roadmap-grid">
+    <div class="phase-card">
+      <div class="phase-head"><span class="phase-title">Part 1 — Repository &amp; Docker Foundation</span><span class="phase-tag">Start Here</span></div>
+      <ul class="phase-list">
+        <li>Create backend repo: backend-api with TypeScript, Express, linting, and env validation.</li>
+        <li>Add docker-compose services for api, postgres-postgis, redis, and optional prisma studio.</li>
+        <li>Add health endpoints: GET /health and GET /health/db for fast debugging.</li>
+        <li>Lock local commands: docker compose up, migrate, seed, test, and logs.</li>
+      </ul>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-head"><span class="phase-title">Part 2 — Database Design &amp; Prisma</span><span class="phase-tag">Schema</span></div>
+      <ul class="phase-list">
+        <li>Define base models: User, Profile, Role, OtpCode, RefreshToken, AuditLog.</li>
+        <li>Add pillar models gradually: experiences, events, business, seva, bhajans, groups, pilgrimage, donations.</li>
+        <li>Create migrations and seed data for local testing in Docker.</li>
+        <li>Keep Zod DTOs shared so API and mobile app use the same contract.</li>
+      </ul>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-head"><span class="phase-title">Part 3 — Auth, Security &amp; RBAC</span><span class="phase-tag">Core API</span></div>
+      <ul class="phase-list">
+        <li>Implement mobile OTP send and verify APIs with Redis rate limiting.</li>
+        <li>Issue access and refresh JWT tokens after successful OTP verification.</li>
+        <li>Add auth middleware, role guards, helmet, cors, request logging, and error handling.</li>
+        <li>Test devotee, elder, mandir-admin, and super-admin access paths.</li>
+      </ul>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-head"><span class="phase-title">Part 4 — Pillar APIs in Priority Order</span><span class="phase-tag">Features</span></div>
+      <ul class="phase-list">
+        <li>Build first vertical slice: experiences feed with create, list, detail, moderation status.</li>
+        <li>Add events with PostGIS location support and near-me queries.</li>
+        <li>Add business directory, seva requests, bhajans/media, groups, pilgrimage, and donations.</li>
+        <li>Each module ships with routes, controller, service, Prisma queries, validation, and tests.</li>
+      </ul>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-head"><span class="phase-title">Part 5 — Jobs, Storage &amp; Notifications</span><span class="phase-tag">Async</span></div>
+      <ul class="phase-list">
+        <li>Use BullMQ workers for push notifications, media processing, reminders, and digest jobs.</li>
+        <li>Add Azure Blob upload flow with signed URLs and CDN-ready media records.</li>
+        <li>Store Expo push tokens and create notification preferences per user.</li>
+        <li>Keep worker containers separate from API containers in Docker compose.</li>
+      </ul>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-head"><span class="phase-title">Part 6 — Testing, Docs &amp; Frontend Handoff</span><span class="phase-tag">Ready for UI</span></div>
+      <ul class="phase-list">
+        <li>Add unit tests for services and integration tests for REST endpoints.</li>
+        <li>Generate OpenAPI docs or a Postman collection for all stable endpoints.</li>
+        <li>Freeze request/response DTOs before connecting Redux Saga and Axios in the app.</li>
+        <li>Only then start frontend screens module by module against the real Docker API.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="debug-strip">
+    <div class="debug-item"><strong>API debug</strong><span>GET /health<br>GET /health/db</span></div>
+    <div class="debug-item"><strong>Database debug</strong><span>prisma studio<br>docker compose logs db</span></div>
+    <div class="debug-item"><strong>Queue debug</strong><span>bull board<br>docker compose logs worker</span></div>
+    <div class="debug-item"><strong>Contract debug</strong><span>zod schemas<br>API integration tests</span></div>
+  </div>
+
+  <div class="flow-box">
+    <div class="flow-label">📁 Independent Repository Split</div>
+    <div class="flow-steps">
+      <span class="fstep">mobile-app repo</span><span class="farrow">·</span>
+      <span class="fstep">backend-api repo</span><span class="farrow">·</span>
+      <span class="fstep">versioned shared contracts later</span>
+    </div>
+  </div>
+
+  <!-- FOLDER TREE -->
+  <div class="section-divider"></div>
+  <div style="font-size:11px;font-weight:500;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">📂 Proposed Folder Structure</div>
+  <div class="folder-tree">
+<span class="dir">sai-family/</span>
+<span class="cmt">                         # parent planning folder</span>
+├── <span class="dir">mobile-app/</span>            <span class="cmt"># separate Expo React Native repo</span>
+│   ├── <span class="dir">app/</span>                 <span class="cmt"># Expo Router file-based routes</span>
+│   │   ├── <span class="dir">(auth)/</span>          <span class="cmt"># login, register, onboarding</span>
+│   │   ├── <span class="dir">(tabs)/</span>          <span class="cmt"># main tab bar — 12 pillars</span>
+│   │   │   ├── <span class="file">feed.tsx</span>     <span class="cmt"># experiences feed</span>
+│   │   │   ├── <span class="file">events.tsx</span>   <span class="cmt"># local events map</span>
+│   │   │   ├── <span class="file">business.tsx</span> <span class="cmt"># business directory</span>
+│   │   │   ├── <span class="file">seva.tsx</span>     <span class="cmt"># seva hub</span>
+│   │   │   ├── <span class="file">bhajans.tsx</span>  <span class="cmt"># devotional media</span>
+│   │   │   └── <span class="file">profile.tsx</span>  <span class="cmt"># user profile</span>
+│   ├── <span class="dir">store/</span>               <span class="cmt"># Redux store</span>
+│   ├── <span class="dir">components/</span>          <span class="cmt"># shared UI components</span>
+│   ├── <span class="dir">hooks/</span>               <span class="cmt"># custom React hooks</span>
+│   └── <span class="dir">services/</span>            <span class="cmt"># Axios API client</span>
+│
+├── <span class="dir">backend-api/</span>            <span class="cmt"># separate Express backend repo</span>
+│       ├── <span class="file">Dockerfile</span>       <span class="cmt"># API container image</span>
+│       ├── <span class="dir">src/</span>
+│       │   ├── <span class="file">server.ts</span>    <span class="cmt"># boot server + port binding</span>
+│       │   ├── <span class="file">app.ts</span>       <span class="cmt"># Express app setup</span>
+│       │   ├── <span class="dir">config/</span>      <span class="cmt"># env, logger, constants</span>
+│       │   ├── <span class="dir">db/</span>          <span class="cmt"># Prisma client + health checks</span>
+│       │   ├── <span class="dir">routes/</span>      <span class="cmt"># one file per pillar</span>
+│       │   │   ├── <span class="file">auth.routes.ts</span>
+│       │   │   ├── <span class="file">experiences.routes.ts</span>
+│       │   │   ├── <span class="file">events.routes.ts</span>
+│       │   │   ├── <span class="file">business.routes.ts</span>
+│       │   │   ├── <span class="file">seva.routes.ts</span>
+│       │   │   └── <span class="file">bhajans.routes.ts</span>
+│       │   ├── <span class="dir">middleware/</span>  <span class="cmt"># auth, zod-validate, upload</span>
+│       │   ├── <span class="dir">controllers/</span> <span class="cmt"># route handlers</span>
+│       │   ├── <span class="dir">services/</span>    <span class="cmt"># business logic</span>
+│       │   ├── <span class="dir">workers/</span>     <span class="cmt"># BullMQ background jobs</span>
+│       │   └── <span class="dir">tests/</span>       <span class="cmt"># integration + service tests</span>
+│       └── <span class="dir">prisma/</span>
+│           ├── <span class="file">schema.prisma</span>
+│           └── <span class="file">seed.ts</span>
+│
+│       ├── <span class="file">docker-compose.yml</span> <span class="cmt"># api + postgres/postgis + redis</span>
+│       └── <span class="file">.env.example</span>       <span class="cmt"># required backend environment keys</span>
+│
+└── <span class="dir">docs/</span>                   <span class="cmt"># planning and process notes</span>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- TECH STACK QUICK REFERENCE -->
+  <div style="font-size:11px;font-weight:500;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;">📋 Full Stack Quick Reference</div>
+  <table class="stack-table">
+    <thead>
+      <tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Mobile App</td><td><span class="mono">Expo ~54 (React Native)</span></td><td>iOS &amp; Android cross-platform app, EAS Build &amp; OTA updates</td></tr>
+      <tr><td>Language</td><td><span class="mono">TypeScript (strict)</span></td><td>Type safety in both repos, with shared contracts published later when stable</td></tr>
+      <tr><td>Navigation</td><td><span class="mono">Expo Router v3</span></td><td>File-based routes, deep links, tab + stack navigation</td></tr>
+      <tr><td>Global State</td><td><span class="mono">Redux Toolkit</span></td><td>Centralized slices for all 12 pillars' data</td></tr>
+      <tr><td>Async / Side Effects</td><td><span class="mono">Redux Saga</span></td><td>API calls, token refresh, offline sync, background tasks</td></tr>
+      <tr><td>Form Validation</td><td><span class="mono">Zod + react-hook-form</span></td><td>Schema-first validation, shared between app and API</td></tr>
+      <tr><td>API Server</td><td><span class="mono">Node.js + Express v5</span></td><td>RESTful API, one route module per pillar</td></tr>
+      <tr><td>Local Backend</td><td><span class="mono">Docker Compose</span></td><td>Repeatable local stack for API, Postgres/PostGIS, Redis, workers, migrations, and tests</td></tr>
+      <tr><td>Authentication</td><td><span class="mono">Mobile OTP + JWT</span></td><td>Login by mobile number + SMS OTP only. No passwords. JWT issued post-verify. RBAC roles.</td></tr>
+      <tr><td>SMS Provider</td><td><span class="mono">MSG91 / Twilio</span></td><td>OTP delivery — MSG91 for India, Twilio for international devotees</td></tr>
+      <tr><td>ORM</td><td><span class="mono">Prisma v5</span></td><td>Type-safe queries, migrations, Prisma Studio</td></tr>
+      <tr><td>Database</td><td><span class="mono">PostgreSQL 16 + PostGIS</span></td><td>Primary DB + geo-spatial queries for maps features</td></tr>
+      <tr><td>Cache / Queue</td><td><span class="mono">Redis + BullMQ</span></td><td>Session cache, rate limiting, push notification queues</td></tr>
+      <tr><td>Push Notifications</td><td><span class="mono">Expo Push / FCM / APNs</span></td><td>Thursday alerts, events, seva calls, leela updates</td></tr>
+      <tr><td>Maps</td><td><span class="mono">Google Maps + Places API</span></td><td>Events, pilgrimage atlas, business finder</td></tr>
+      <tr><td>Media Storage</td><td><span class="mono">Azure Blob + Azure CDN</span></td><td>Photos, bhajan audio, event media — Azure CDN for global edge delivery</td></tr>
+      <tr><td>Multilingual</td><td><span class="mono">i18next + expo-localization</span></td><td>Hindi, Telugu, Marathi, Tamil, Kannada, English</td></tr>
+      <tr><td>Repo Split</td><td><span class="mono">mobile-app + backend-api</span></td><td>Separate repositories for mobile builds, backend deployment, and team ownership</td></tr>
+    </tbody>
+  </table>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div style="font-size:11px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.5rem;">🪔 Ready to Build</div>
+    <h3>Start with the Docker backend</h3>
+    <p>Build the API foundation first, prove every part with health checks and tests, then connect the Expo frontend one stable module at a time.</p>
+    <div class="cta-row">
+      <button class="btn-primary">Create Docker Stack</button>
+      <button class="btn-secondary">Design Prisma Schema</button>
+      <button class="btn-secondary">Build Auth API</button>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
